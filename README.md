@@ -2,7 +2,7 @@
 This header-only library provides a simple template class for creating C#-like multicast delegates in C++.
 
 ### Usage
-```C+=
+```C++
 #include "delegate.hpp"
 #include <iostream>
 
@@ -34,7 +34,7 @@ int main() {
 }
 ```
 ### Returning values
-```C+=
+```C++
 #include "delegate.hpp"
 #include <iostream>
 
