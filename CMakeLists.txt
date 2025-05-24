@@ -6,6 +6,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 project(delegate)
 
+add_library(${PROJECT_NAME} INTERFACE)
+
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
+
+# Export include directories
+target_include_directories(${PROJECT_NAME} INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:include>
+)
+
 enable_testing()
 
 # Find GoogleTest
