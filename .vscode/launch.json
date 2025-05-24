@@ -8,7 +8,7 @@
 		{
 			"type": "lldb",
 			"request": "launch",
-			"name": "Run tests",
+			"name": "Run Tests",
 			"program": "${workspaceFolder}/build/delegate-tests",
 			"args": [],
 			"cwd": "${workspaceFolder}"
