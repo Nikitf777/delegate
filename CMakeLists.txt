@@ -6,18 +6,18 @@ add_library(${PROJECT_NAME} INTERFACE)
 
 target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 
-target_include_directories(delegate INTERFACE
+target_include_directories(${PROJECT_NAME} INTERFACE
 	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
 	$<INSTALL_INTERFACE:include>
 )
 
 install(FILES ${PROJECT_SOURCE_DIR}/delegate.hpp DESTINATION include)
 
-install(TARGETS delegate EXPORT delegateTargets)
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets)
 
-install(EXPORT delegateTargets
-	FILE delegateConfig.cmake
-	DESTINATION lib/cmake/delegate
+install(EXPORT ${PROJECT_NAME}Targets
+	FILE ${PROJECT_NAME}Config.cmake
+	DESTINATION lib/cmake/${PROJECT_NAME}
 )
 
 enable_testing()
