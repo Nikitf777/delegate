@@ -9,7 +9,7 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Run tests",
-			"program": "${workspaceFolder}/build/tests",
+			"program": "${workspaceFolder}/build/delegate-tests",
 			"args": [],
 			"cwd": "${workspaceFolder}"
 		}
