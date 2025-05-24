@@ -5,14 +5,13 @@
 #include <vector>
 
 // Primary template (undefined)
-template <typename T,
-		  template <typename...> class FunctionContainer = std::vector>
+template <typename T, template <typename...> class Container = std::vector>
 class Delegate;
 
 // Specialization for function signature Ret(Args...)
 template <typename Ret, typename... Args,
-		  template <typename...> class FunctionContainer>
-class Delegate<Ret(Args...), FunctionContainer> {
+		  template <typename...> class Container>
+class Delegate<Ret(Args...), Container> {
   public:
 	using FunctionType = std::function<Ret(Args...)>;
 
@@ -36,19 +35,19 @@ class Delegate<Ret(Args...), FunctionContainer> {
 	// Add a function via method
 	void Add(FunctionType func) { *this += std::move(func); }
 
-	// Call operator: invoke all bound functions
-	std::vector<Ret> operator()(Args... args) const {
-		if constexpr (std::is_void_v<Ret>) {
-			for (const auto &func : functions) {
-				func(std::forward<Args>(args)...);
-			}
-		} else {
+	// Call operator: invoke all bound functions and return results
+	auto operator()(Args... args) const {
+		if constexpr (!std::is_void_v<Ret>) {
 			std::vector<Ret> results;
 			results.reserve(functions.size());
 			for (const auto &func : functions) {
 				results.push_back(func(std::forward<Args>(args)...));
 			}
 			return results;
+		} else {
+			for (const auto &func : functions) {
+				func(std::forward<Args>(args)...);
+			}
 		}
 	}
 
@@ -57,7 +56,7 @@ class Delegate<Ret(Args...), FunctionContainer> {
 	bool IsEmpty() const { return functions.empty(); }
 
   private:
-	FunctionContainer<FunctionType> functions;
+	Container<FunctionType> functions;
 };
 
 // Alias for std::vector as the default container
