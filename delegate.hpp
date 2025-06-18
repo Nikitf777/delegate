@@ -5,16 +5,18 @@
 #include <vector>
 
 // Primary template (undefined)
-template <typename T, template <typename...> class Container = std::vector>
+template <typename T, template <typename...> class Container = std::vector,
+		  template <typename...> class FunctionWrapper = std::function>
 class Delegate;
 
 // Specialization for function signature Ret(Args...)
 template <typename Ret, typename... Args,
-		  template <typename...> class Container>
-class Delegate<Ret(Args...), Container> {
+		  template <typename...> class Container,
+		  template <typename...> class FunctionWrapper>
+class Delegate<Ret(Args...), Container, FunctionWrapper> {
   public:
 	using FunctionType = Ret(Args...);
-	using FunctionWrapperType = std::function<FunctionType>;
+	using FunctionWrapperType = FunctionWrapper<FunctionType>;
 
 	// Constructor from a callable
 	Delegate(FunctionWrapperType &&func)
@@ -58,10 +60,16 @@ class Delegate<Ret(Args...), Container> {
 };
 
 // Alias for std::vector as the default container
-template <typename T> using DelegateVector = Delegate<T, std::vector>;
+template <typename T,
+		  template <typename...> class FunctionWrapper = std::function>
+using DelegateVector = Delegate<T, std::vector, FunctionWrapper>;
 
 // Alias for std::list
-template <typename T> using DelegateList = Delegate<T, std::list>;
+template <typename T,
+		  template <typename...> class FunctionWrapper = std::function>
+using DelegateList = Delegate<T, std::list, FunctionWrapper>;
 
 // Alias for std::deque
-template <typename T> using DelegateDeque = Delegate<T, std::deque>;
+template <typename T,
+		  template <typename...> class FunctionWrapper = std::function>
+using DelegateDeque = Delegate<T, std::deque, FunctionWrapper>;
