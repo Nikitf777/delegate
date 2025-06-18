@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#if __cplusplus == 202002L
 // Concept: FunctionWrapper must be callable with Args... and return Ret
 template <template <typename...> class FunctionWrapper, typename Ret,
 		  typename... Args>
@@ -22,6 +23,7 @@ concept ValidContainer = requires(Container<T> c, T t, size_t s) {
 	{ c.empty() } -> std::convertible_to<bool>;
 	{ c.size() } -> std::same_as<size_t>;
 };
+#endif
 
 // Primary template (undefined)
 template <typename T, template <typename...> class Container = std::vector,
@@ -32,8 +34,10 @@ class Delegate;
 template <typename Ret, typename... Args,
 		  template <typename...> class Container,
 		  template <typename...> class FunctionWrapper>
+#if __cplusplus == 202002L
 	requires ValidFunctionWrapper<FunctionWrapper, Ret, Args...> &&
 			 ValidContainer<Container, FunctionWrapper<Ret(Args...)>>
+#endif
 class Delegate<Ret(Args...), Container, FunctionWrapper> {
   public:
 	using FunctionType = Ret(Args...);
