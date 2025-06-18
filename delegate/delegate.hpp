@@ -2,7 +2,6 @@
 #include <functional>
 #include <list>
 #include <type_traits>
-#include <utility>
 #include <vector>
 
 #if __cplusplus == 202002L
