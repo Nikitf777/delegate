@@ -19,12 +19,7 @@ class Delegate<Ret(Args...), Container> {
 	template <typename TFunc>
 	Delegate(TFunc &&func) : functions({std::forward<TFunc>(func)}) {}
 
-	// Default constructors and assignment operators
 	Delegate() = default;
-	Delegate(const Delegate &) = default;
-	Delegate(Delegate &&) = default;
-	Delegate &operator=(const Delegate &) = default;
-	Delegate &operator=(Delegate &&) = default;
 
 	// Add a function via operator +=
 	void operator+=(FunctionType func) {
