@@ -6,7 +6,7 @@ project(delegate)
 add_library(${PROJECT_NAME} INTERFACE)
 
 # Set C++20 as the required standard
-target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_20)
 
 # Expose include directories with BUILD_INTERFACE and INSTALL_INTERFACE
 target_include_directories(${PROJECT_NAME} INTERFACE

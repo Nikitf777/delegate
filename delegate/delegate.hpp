@@ -1,8 +1,27 @@
+#include <concepts>
 #include <deque>
 #include <functional>
 #include <list>
 #include <type_traits>
+#include <utility>
 #include <vector>
+
+// Concept: FunctionWrapper must be callable with Args... and return Ret
+template <template <typename...> class FunctionWrapper, typename Ret,
+		  typename... Args>
+concept ValidFunctionWrapper =
+	requires(const FunctionWrapper<Ret(Args...)> f, Args... args) {
+		{ f(std::forward<Args>(args)...) } -> std::same_as<Ret>;
+	};
+
+// Concept: Container must support necessary operations
+template <template <typename...> class Container, typename T>
+concept ValidContainer = requires(Container<T> c, T t, size_t s) {
+	{ c.push_back(t) } -> std::same_as<void>;
+	{ c.clear() } -> std::same_as<void>;
+	{ c.empty() } -> std::convertible_to<bool>;
+	{ c.size() } -> std::same_as<size_t>;
+};
 
 // Primary template (undefined)
 template <typename T, template <typename...> class Container = std::vector,
@@ -13,6 +32,8 @@ class Delegate;
 template <typename Ret, typename... Args,
 		  template <typename...> class Container,
 		  template <typename...> class FunctionWrapper>
+	requires ValidFunctionWrapper<FunctionWrapper, Ret, Args...> &&
+			 ValidContainer<Container, FunctionWrapper<Ret(Args...)>>
 class Delegate<Ret(Args...), Container, FunctionWrapper> {
   public:
 	using FunctionType = Ret(Args...);
