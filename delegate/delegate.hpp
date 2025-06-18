@@ -56,6 +56,7 @@ class Delegate<Ret(Args...), Container, FunctionWrapper> {
 	void add(FunctionWrapperType func) { *this += std::move(func); }
 
 	// Call operator: invoke all bound functions and return results
+	[[nodiscard]]
 	auto operator()(Args... args) const {
 		if constexpr (!std::is_void_v<Ret>) {
 			std::vector<Ret> results;
