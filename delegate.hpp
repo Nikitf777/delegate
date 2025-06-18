@@ -13,22 +13,25 @@ template <typename Ret, typename... Args,
 		  template <typename...> class Container>
 class Delegate<Ret(Args...), Container> {
   public:
-	using FunctionType = std::function<Ret(Args...)>;
+	using FunctionType = Ret(Args...);
+	using FunctionWrapperType = std::function<FunctionType>;
 
 	// Constructor from a callable
-	template <typename TFunc>
-	Delegate(TFunc &&func) : functions({std::forward<TFunc>(func)}) {}
+	Delegate(FunctionWrapperType &&func)
+		: functions({std::forward<FunctionWrapperType>(func)}) {}
+
+	Delegate(const Delegate &other) = default;
 
 	Delegate() = default;
 
 	// Add a function via operator +=
-	void operator+=(FunctionType func) {
+	void operator+=(FunctionWrapperType func) {
 		if (func)
 			functions.push_back(std::move(func));
 	}
 
 	// Add a function via method
-	void add(FunctionType func) { *this += std::move(func); }
+	void add(FunctionWrapperType func) { *this += std::move(func); }
 
 	// Call operator: invoke all bound functions and return results
 	auto operator()(Args... args) const {
@@ -51,7 +54,7 @@ class Delegate<Ret(Args...), Container> {
 	bool isEmpty() const { return functions.empty(); }
 
   private:
-	Container<FunctionType> functions;
+	Container<FunctionWrapperType> functions;
 };
 
 // Alias for std::vector as the default container

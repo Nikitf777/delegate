@@ -20,7 +20,7 @@ TYPED_TEST(DelegateTest, SingleFunctionReturnsValue) {
 // Test that a function can be added after constructor
 TYPED_TEST(DelegateTest, MultipleFunctionsAddedViaOperatorPlusEqual) {
 	TypeParam d([](int x) { return x * 2; });
-	typename TypeParam::FunctionType func = [](int x) { return x * 3; };
+	typename TypeParam::FunctionWrapperType func = [](int x) { return x * 3; };
 	d += func;
 	auto results = d(5);
 	EXPECT_EQ(results.size(), 2);
@@ -48,7 +48,7 @@ TYPED_TEST(DelegateTest, ClearResetsDelegate) {
 
 // Test that null functions are ignored
 TYPED_TEST(DelegateTest, NullFunctionIsIgnored) {
-	typename TypeParam::FunctionType nullFunc;
+	typename TypeParam::FunctionWrapperType nullFunc;
 	TypeParam d;
 	d += nullFunc;
 	EXPECT_TRUE(d.isEmpty());
@@ -64,4 +64,15 @@ TEST(DelegateEdgeCases, FunctionMovedSuccessfully) {
 	auto results = d(5);
 	ASSERT_EQ(results.size(), 1);
 	EXPECT_EQ(results[0], 10);
+}
+
+// Test that a delegate can be copied
+TEST(DelegateEdgeCases, DelegateCopiedSuccessfully) {
+	DelegateVector<int(int)> d([](int x) { return x * 2; });
+	DelegateVector<int(int)> d2(d);
+	d2 += [](int x) { return x * 3; };
+	auto results = d(5);
+	auto results2 = d2(5);
+	ASSERT_EQ(results.size() == 1 && results2.size() == 2, true);
+	EXPECT_EQ(results2[0], 10);
 }
