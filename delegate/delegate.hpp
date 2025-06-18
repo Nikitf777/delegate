@@ -40,8 +40,7 @@ class Delegate<Ret(Args...), Container, FunctionWrapper> {
 	using FunctionWrapperType = FunctionWrapper<FunctionType>;
 
 	// Constructor from a callable
-	Delegate(FunctionWrapperType &&func)
-		: functions({std::forward<FunctionWrapperType>(func)}) {}
+	Delegate(FunctionWrapperType func) : functions({std::move(func)}) {}
 
 	Delegate(const Delegate &other) = default;
 
