@@ -27,33 +27,35 @@ TYPED_TEST(DelegateTest, MultipleFunctionsAddedViaOperatorPlusEqual) {
 }
 
 TYPED_TEST(DelegateTest, AddFunctionUsingAddMethod) {
-    TypeParam d;
-    d.Add([](int x) { return x; });
-    auto results = d(3);
-    ASSERT_EQ(results.size(), 1);
-    EXPECT_EQ(results[0], 3);
+	TypeParam d;
+	d.add([](int x) { return x; });
+	auto results = d(3);
+	ASSERT_EQ(results.size(), 1);
+	EXPECT_EQ(results[0], 3);
 }
 
 TYPED_TEST(DelegateTest, ClearResetsDelegate) {
-    TypeParam d([](int x) { return x; });
-    d.Clear();
-    EXPECT_TRUE(d.IsEmpty());
-    auto results = d(5);
-    EXPECT_TRUE(results.empty());
+	TypeParam d([](int x) { return x; });
+	d.clear();
+	EXPECT_TRUE(d.isEmpty());
+	auto results = d(5);
+	EXPECT_TRUE(results.empty());
 }
 
 TYPED_TEST(DelegateTest, NullFunctionIsIgnored) {
-    typename TypeParam::FunctionType nullFunc;
-    TypeParam d;
-    d += nullFunc;
-    EXPECT_TRUE(d.IsEmpty());
+	typename TypeParam::FunctionType nullFunc;
+	TypeParam d;
+	d += nullFunc;
+	EXPECT_TRUE(d.isEmpty());
 }
 
 TEST(DelegateEdgeCases, FunctionMovedSuccessfully) {
-    std::function<int(int)> func = [](int x) { return x * 2; };
-    DelegateVector<int(int)> d(std::move(func));
-    EXPECT_TRUE(func.target_type().name() == std::type_index(typeid(void)).name());  // func is empty after move
-    auto results = d(5);
-    ASSERT_EQ(results.size(), 1);
-    EXPECT_EQ(results[0], 10);
+	std::function<int(int)> func = [](int x) { return x * 2; };
+	DelegateVector<int(int)> d(std::move(func));
+	EXPECT_TRUE(
+		func.target_type().name() ==
+		std::type_index(typeid(void)).name()); // func is empty after move
+	auto results = d(5);
+	ASSERT_EQ(results.size(), 1);
+	EXPECT_EQ(results[0], 10);
 }

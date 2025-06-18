@@ -28,7 +28,7 @@ class Delegate<Ret(Args...), Container> {
 	}
 
 	// Add a function via method
-	void Add(FunctionType func) { *this += std::move(func); }
+	void add(FunctionType func) { *this += std::move(func); }
 
 	// Call operator: invoke all bound functions and return results
 	auto operator()(Args... args) const {
@@ -47,8 +47,8 @@ class Delegate<Ret(Args...), Container> {
 	}
 
 	// Utility methods
-	void Clear() { functions.clear(); }
-	bool IsEmpty() const { return functions.empty(); }
+	void clear() { functions.clear(); }
+	bool isEmpty() const { return functions.empty(); }
 
   private:
 	Container<FunctionType> functions;
