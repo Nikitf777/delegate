@@ -9,6 +9,7 @@ using DelegateTypes =
 template <typename T> class DelegateTest : public ::testing::Test {};
 TYPED_TEST_SUITE(DelegateTest, DelegateTypes);
 
+// Test that the constructor works with lambda
 TYPED_TEST(DelegateTest, SingleFunctionReturnsValue) {
 	TypeParam d([](int x) { return x + 1; });
 	auto results = d(5);
@@ -16,6 +17,7 @@ TYPED_TEST(DelegateTest, SingleFunctionReturnsValue) {
 	EXPECT_EQ(results[0], 6);
 }
 
+// Test that a function can be added after constructor
 TYPED_TEST(DelegateTest, MultipleFunctionsAddedViaOperatorPlusEqual) {
 	TypeParam d([](int x) { return x * 2; });
 	typename TypeParam::FunctionType func = [](int x) { return x * 3; };
@@ -26,6 +28,7 @@ TYPED_TEST(DelegateTest, MultipleFunctionsAddedViaOperatorPlusEqual) {
 	EXPECT_EQ(results[1], 15);
 }
 
+// Test that a function can be added via method
 TYPED_TEST(DelegateTest, AddFunctionUsingAddMethod) {
 	TypeParam d;
 	d.add([](int x) { return x; });
@@ -34,6 +37,7 @@ TYPED_TEST(DelegateTest, AddFunctionUsingAddMethod) {
 	EXPECT_EQ(results[0], 3);
 }
 
+// Test that the clear() function works
 TYPED_TEST(DelegateTest, ClearResetsDelegate) {
 	TypeParam d([](int x) { return x; });
 	d.clear();
@@ -42,6 +46,7 @@ TYPED_TEST(DelegateTest, ClearResetsDelegate) {
 	EXPECT_TRUE(results.empty());
 }
 
+// Test that null functions are ignored
 TYPED_TEST(DelegateTest, NullFunctionIsIgnored) {
 	typename TypeParam::FunctionType nullFunc;
 	TypeParam d;
@@ -49,6 +54,7 @@ TYPED_TEST(DelegateTest, NullFunctionIsIgnored) {
 	EXPECT_TRUE(d.isEmpty());
 }
 
+// Test that a function can be moved
 TEST(DelegateEdgeCases, FunctionMovedSuccessfully) {
 	std::function<int(int)> func = [](int x) { return x * 2; };
 	DelegateVector<int(int)> d(std::move(func));
