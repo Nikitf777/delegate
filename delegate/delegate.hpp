@@ -1,10 +1,13 @@
-#include <concepts>
 #include <deque>
 #include <functional>
 #include <list>
 #include <type_traits>
 #include <utility>
 #include <vector>
+
+#if __cplusplus == 202002L
+#include <concepts>
+#endif
 
 #if __cplusplus == 202002L
 // Concept: FunctionWrapper must be callable with Args... and return Ret
