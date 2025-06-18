@@ -1,5 +1,5 @@
 # delegate
-This header-only library provides a simple template class for creating C#-like multicast delegates in C++.
+This header-only library provides a simple template class for creating C#-like multicast delegates. It's written using modern C++11 and C++20 features.
 
 ### Usage
 ```C++
