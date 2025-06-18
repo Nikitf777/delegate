@@ -1,4 +1,4 @@
-#include "delegate.hpp"
+#include "delegate/delegate.hpp"
 #include <gtest/gtest.h>
 #include <typeindex>
 
