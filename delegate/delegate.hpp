@@ -72,7 +72,6 @@ class Delegate<Ret(Args...), Container, FunctionWrapper> {
 		}
 	}
 
-	// Utility methods
 	void clear() { functions.clear(); }
 	bool isEmpty() const { return functions.empty(); }
 
