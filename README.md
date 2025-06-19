@@ -4,7 +4,7 @@ It's written using modern C++11 and C++20 features. However, it can be built wit
 
 ### Usage
 ```C++
-#include "delegate.hpp"
+#include "delegate/delegate.hpp"
 #include <iostream>
 
 struct MyClass {
@@ -36,7 +36,7 @@ int main() {
 ```
 ### Returning values
 ```C++
-#include "delegate.hpp"
+#include "delegate/delegate.hpp"
 #include <iostream>
 
 struct MyClass {
@@ -81,15 +81,21 @@ int main() {
 	return 0;
 }
 ```
-### Predefined Types
+### Predefined Aliases
 ```C++
 // Alias for std::vector as the default container
-template <typename T> using DelegateVector = Delegate<T, std::vector>;
+template <typename T,
+		  template <typename...> class FunctionWrapper = std::function>
+using DelegateVector = Delegate<T, std::vector, FunctionWrapper>;
 
 // Alias for std::list
-template <typename T> using DelegateList = Delegate<T, std::list>;
+template <typename T,
+		  template <typename...> class FunctionWrapper = std::function>
+using DelegateList = Delegate<T, std::list, FunctionWrapper>;
 
 // Alias for std::deque
-template <typename T> using DelegateDeque = Delegate<T, std::deque>;
+template <typename T,
+		  template <typename...> class FunctionWrapper = std::function>
+using DelegateDeque = Delegate<T, std::deque, FunctionWrapper>;
 ```
 
