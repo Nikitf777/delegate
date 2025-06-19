@@ -4,11 +4,11 @@
 #include <type_traits>
 #include <vector>
 
-#if __cplusplus == 202002L
+#if __cplusplus >= 202002L
 #include <concepts>
 #endif
 
-#if __cplusplus == 202002L
+#if __cplusplus >= 202002L
 // Concept: FunctionWrapper must be callable with Args... and return Ret
 template <template <typename...> class FunctionWrapper, typename Ret,
 		  typename... Args>
@@ -36,7 +36,7 @@ class Delegate;
 template <typename Ret, typename... Args,
 		  template <typename...> class Container,
 		  template <typename...> class FunctionWrapper>
-#if __cplusplus == 202002L
+#if __cplusplus >= 202002L
 	requires ValidFunctionWrapper<FunctionWrapper, Ret, Args...> &&
 			 ValidContainer<Container, FunctionWrapper<Ret(Args...)>>
 #endif
